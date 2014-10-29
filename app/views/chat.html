@@ -1,0 +1,25 @@
+<h2>Chat</h2>
+
+<form role="form">
+    <div class="form-group">
+        <label for="newMessage">Message</label>
+        <textarea id="newMessage" class="form-control" placeholder="Message..." ng-model="newMessage">
+        </textarea>
+    </div>
+    <button class="btn btn-primary" type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
+</form>
+
+<div class="row marketing" id="messages" ng-show="messages.length">
+    <div ng-repeat="message in messages | reverse">
+        <div class="col-xs-8">
+            {{message.text}}
+        </div>
+        <div class="col-xs-4">
+            <button class="btn btn-default pull-right" ng-click="removeMessage(message)">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </div>
+    </div>
+    <p class="alert alert-danger" ng-show="err">{{err}}</p>
+</div>
+
