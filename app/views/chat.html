@@ -7,21 +7,40 @@
         href="#/account">login</a></em></div>
 <form role="form" ng-show-auth>
     <div class="form-group">
-        <label for="newMessage">Message</label>
-        <input id="newMessage" class="form-control" placeholder="Message..." ng-model="newMessage"/>
+        <label for="newMessageText">Message</label>
+        <input id="newMessageText" class="form-control" placeholder="Message..." ng-model="newMessage.text"/>
+        <label for="newMessageNote">Note</label>
+        <input id="newMessageNote" class="form-control" placeholder="Note..." ng-model="newMessage.note"/>
     </div>
+    <button class="btn btn-primary" type="button" ng-click="saveMessage(newMessage);newMessage = null;">edit</button>
     <button class="btn btn-primary" type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
 </form>
 
 <div class="row marketing" id="messages" ng-show="messages.length">
-    <blockquote ng-repeat="message in messages | reverse">
-        <a class="pull-right" ng-click="removeMessage(message)" ng-show-auth>
-            <span class="glyphicon glyphicon-minus"></span>
-        </a>
-
-        <p class="list-group-item-text">{{message.text}}</p>
-        <footer>{{message.user}}</footer>
-    </blockquote>
+    <div class="panel panel-default" ng-repeat="message in messages | reverse">
+        <div class="panel-heading">
+            <h3 class="panel-title pull-right">{{message.received.at | date:'HH:mm, dd.MMM.yyyy'}}</h3>
+            <div class="btn-group" ng-show-auth>
+                <button class="btn btn-default" ng-click="editMessage(message)">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span><span class="sr-only">Edit</span>
+                </button>
+                <button class="btn btn-default" ng-click="removeMessage(message)">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span><span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default" ng-click="message.indicator='read';saveMessage(message);">Read</button>
+                <button class="btn btn-default" ng-click="message.indicator='done';saveMessage(message);">Done</button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <p>{{message.text}}</p>
+            <footer>{{message.acknowledged}}</footer>
+            <blockquote class="blockquote-reverse" ng-show="message.note">
+                {{message.note}}
+            </blockquote>
+        </div>
+    </div>
     <p class="alert alert-danger" ng-show="err">{{err}}</p>
 </div>
 

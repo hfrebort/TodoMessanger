@@ -9,7 +9,7 @@
 angular.module('todoMessengerApp')
   .controller('ChatCtrl', function ($scope, simpleLogin, fbutil, $timeout) {
     // synchronize the logged in user
-    simpleLogin.getUser().then(function(user) {
+    simpleLogin.getUser().then(function (user) {
       $scope.user = user;
     });
 
@@ -20,17 +20,31 @@ angular.module('todoMessengerApp')
     $scope.messages.$loaded().catch(alert);
 
     // provide a method for adding a message
-    $scope.addMessage = function(newMessage) {
-      if( newMessage ) {
+    $scope.addMessage = function (newMessage) {
+      if (newMessage) {
         // push a message to the end of the array
-        $scope.messages.$add({text: newMessage, user: $scope.user.email})
+        $scope.messages.$add({
+          priority: 0,
+          text: newMessage.text,
+          received: {
+            at: new Date().getTime(),
+            by: $scope.user.email
+          }})
           // display any errors
           .catch(alert);
       }
     };
-
+    // provide a method for saving a message
+    $scope.saveMessage = function (message) {
+      if (message) {
+        // push a message to the end of the array
+        $scope.messages.$save(message)
+          // display any errors
+          .catch(alert);
+      }
+    };
     // provide a method to remove a message
-    $scope.removeMessage = function(message) {
+    $scope.removeMessage = function (message) {
       if (message) {
         // remove the given message from the array
         $scope.messages.$remove(message)
@@ -38,10 +52,16 @@ angular.module('todoMessengerApp')
           .catch(alert);
       }
     };
+    // provide a method to edit a message
+    $scope.editMessage = function (message) {
+      if (message) {
+        $scope.newMessage = message;
+      }
+    };
 
     function alert(msg) {
       $scope.err = msg;
-      $timeout(function() {
+      $timeout(function () {
         $scope.err = null;
       }, 5000);
     }

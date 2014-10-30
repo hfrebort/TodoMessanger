@@ -21,7 +21,7 @@ Web application was created with generate-angularfire.
 
 ```JavaScript
 message: {
-  receivedAt,
+  received: { at, by },
   priority,
   text,
   note,
