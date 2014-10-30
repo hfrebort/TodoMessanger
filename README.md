@@ -1,5 +1,5 @@
-TodoMessanger
+TodoMessenger
 =============
 
-In first line a simple chat.
-Webapp was created with generate-angularfire.
+A simple chat to get familiar with angular fire.
+Web application was created with generate-angularfire.
