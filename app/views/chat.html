@@ -1,28 +1,27 @@
-<h2>Chat</h2>
+<h3>Logged in user
+    <small ng-show-auth>{{user.email}}</small>
+    <small ng-hide-auth>not logged in</small>
+</h3>
 
-<form role="form">
-    <div class="form-group">
-        <label for="user">User</label>
-        <input id="user" class="form-control" placeholder="user name" ng-model="newUser" />
-    </div>
+<div ng-hide-auth class="well text-right">Only logged in users can administer messages. <br/><em>Do not hesitate to <a
+        href="#/account">login</a></em></div>
+<form role="form" ng-show-auth>
     <div class="form-group">
         <label for="newMessage">Message</label>
-        <textarea id="newMessage" class="form-control" placeholder="Message..." ng-model="newMessage">
-        </textarea>
+        <input id="newMessage" class="form-control" placeholder="Message..." ng-model="newMessage"/>
     </div>
-    <button class="btn btn-primary" type="submit" ng-click="addMessage(newMessage,newUser);newMessage = null;">send</button>
+    <button class="btn btn-primary" type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
 </form>
 
 <div class="row marketing" id="messages" ng-show="messages.length">
-    <div class="list-group">
-        <a class="list-group-item" ng-repeat="message in messages | reverse">
-            <span class="pull-right" ng-click="removeMessage(message)">
-                <span class="glyphicon glyphicon-minus"></span>
-            </span>
-            <h4 class="list-group-item-heading">{{message.user}}</h4>
-            <p class="list-group-item-text">{{message.text}}</p>
+    <blockquote ng-repeat="message in messages | reverse">
+        <a class="pull-right" ng-click="removeMessage(message)" ng-show-auth>
+            <span class="glyphicon glyphicon-minus"></span>
         </a>
-    </div>
+
+        <p class="list-group-item-text">{{message.text}}</p>
+        <footer>{{message.user}}</footer>
+    </blockquote>
     <p class="alert alert-danger" ng-show="err">{{err}}</p>
 </div>
 

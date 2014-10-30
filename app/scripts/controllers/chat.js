@@ -7,9 +7,11 @@
  * A demo of using AngularFire to manage a synchronized list.
  */
 angular.module('todoMessengerApp')
-  .controller('ChatCtrl', function ($scope, fbutil, $timeout) {
+  .controller('ChatCtrl', function ($scope, simpleLogin, fbutil, $timeout) {
     // synchronize the logged in user
-    //$scope.user = user;
+    simpleLogin.getUser().then(function(user) {
+      $scope.user = user;
+    });
 
     // synchronize a read-only, synchronized array of messages, limit to most recent 10
     $scope.messages = fbutil.syncArray('messages', {limit: 10});
@@ -18,10 +20,10 @@ angular.module('todoMessengerApp')
     $scope.messages.$loaded().catch(alert);
 
     // provide a method for adding a message
-    $scope.addMessage = function(newMessage, newUser) {
+    $scope.addMessage = function(newMessage) {
       if( newMessage ) {
         // push a message to the end of the array
-        $scope.messages.$add({text: newMessage, user: newUser})
+        $scope.messages.$add({text: newMessage, user: $scope.user.email})
           // display any errors
           .catch(alert);
       }
