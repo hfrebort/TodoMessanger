@@ -2,23 +2,26 @@
 
 <form role="form">
     <div class="form-group">
+        <label for="user">User</label>
+        <input id="user" class="form-control" placeholder="user name" ng-model="newUser" />
+    </div>
+    <div class="form-group">
         <label for="newMessage">Message</label>
         <textarea id="newMessage" class="form-control" placeholder="Message..." ng-model="newMessage">
         </textarea>
     </div>
-    <button class="btn btn-primary" type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
+    <button class="btn btn-primary" type="submit" ng-click="addMessage(newMessage,newUser);newMessage = null;">send</button>
 </form>
 
 <div class="row marketing" id="messages" ng-show="messages.length">
-    <div ng-repeat="message in messages | reverse">
-        <div class="col-xs-8">
-            {{message.text}}
-        </div>
-        <div class="col-xs-4">
-            <button class="btn btn-default pull-right" ng-click="removeMessage(message)">
-                <span class="glyphicon glyphicon-remove"></span>
-            </button>
-        </div>
+    <div class="list-group">
+        <a class="list-group-item" ng-repeat="message in messages | reverse">
+            <span class="pull-right" ng-click="removeMessage(message)">
+                <span class="glyphicon glyphicon-minus"></span>
+            </span>
+            <h4 class="list-group-item-heading">{{message.user}}</h4>
+            <p class="list-group-item-text">{{message.text}}</p>
+        </a>
     </div>
     <p class="alert alert-danger" ng-show="err">{{err}}</p>
 </div>
